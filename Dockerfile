@@ -1,5 +1,5 @@
 # 第一阶段：使用Maven镜像构建
-FROM maven:3.8-eclipse-temurin-17 AS builder
+FROM maven:3.8-eclipse-temurin-21 AS builder
 WORKDIR /app
 COPY pom.xml .
 # 复制源代码
@@ -8,7 +8,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # 第二阶段：使用轻量级JRE运行
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:21-jre
 WORKDIR /app
 # 从构建阶段复制生成的JAR包
 COPY --from=builder /app/target/*.jar app.jar
